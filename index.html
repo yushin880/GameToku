@@ -156,18 +156,18 @@ const GAMES=[
  w:360,h:640,keep:true /* 縦長がちょうどいいゲーム */,
  size:1.45, // プレイヤーの大きさ（1.0 = 元の大きさ。見た目と当たり判定の両方に効く）
  reset(api){this.api=api;this.y=280;this.vy=0;this.pipes=[];
-   if(!this.snd){this.snd=new Audio(encodeURI('sozai/ふわふわばーどドカン1個飛び越え効果音_web.wav'));this.snd.preload='auto';}this.t=1.1;this.gx=0;
-   if(!this.bg){this.bg=new Image();this.bg.src=encodeURI('sozai/ふわふわばーど背景.png');}
-   if(!this.grass){this.grass=new Image();this.grass.src=encodeURI('sozai/ふわふわバード草部分.png');}
-   if(!this.soil){this.soil=new Image();this.soil.src=encodeURI('sozai/ふわふわバード土部分.png');}
-   if(!this.chara){this.chara=new Image();this.chara.src=encodeURI('sozai/ふわふわばーどキャラ.png');}
-   if(!this.nums){this.nums=[...Array(10)].map((_,i)=>{const im=new Image();im.src='sozai/'+i+'.png';return im;});}
+   if(!this.snd){this.snd=new Audio(encodeURI('ふわふわばーどドカン1個飛び越え効果音_web.wav'));this.snd.preload='auto';}this.t=1.1;this.gx=0;
+   if(!this.bg){this.bg=new Image();this.bg.src=encodeURI('ふわふわばーど背景.png');}
+   if(!this.grass){this.grass=new Image();this.grass.src=encodeURI('ふわふわバード草部分.png');}
+   if(!this.soil){this.soil=new Image();this.soil.src=encodeURI('ふわふわバード土部分.png');}
+   if(!this.chara){this.chara=new Image();this.chara.src=encodeURI('ふわふわばーどキャラ.png');}
+   if(!this.nums){this.nums=[...Array(10)].map((_,i)=>{const im=new Image();im.src=''+i+'.png';return im;});}
    this.cl=[0,1,2,3].map(i=>({x:i*110,y:rnd(60,260),s:rnd(.7,1.3)}));},
  onStart(){this.flap();},
  flap(){this.vy=-360;},
  // 土管を1個くぐるたびに鳴らす効果音（sozai フォルダ）
  passSound(){
-   if(!this.snd){this.snd=new Audio(encodeURI('sozai/ふわふわばーどドカン1個飛び越え効果音_web.wav'));this.snd.preload='auto';}
+   if(!this.snd){this.snd=new Audio(encodeURI('ふわふわばーどドカン1個飛び越え効果音_web.wav'));this.snd.preload='auto';}
    const a=this.snd.cloneNode();a.volume=.8;a.play().catch(()=>{});
  },
  key(c,d,rep){if(d&&!rep&&(c==='Space'||c==='ArrowUp'||c==='KeyW'))this.flap();},
@@ -206,7 +206,7 @@ const GAMES=[
    const W=360,GY=550,now=performance.now();
    const bg=this.bg;
    if(bg&&bg.complete&&bg.naturalWidth){
-     // 背景画像（sozai/ふわふわばーど背景.png）を等倍・固定で、下端を地面に合わせて表示
+     // 背景画像（ふわふわばーど背景.png）を等倍・固定で、下端を地面に合わせて表示
      const iw=bg.naturalWidth,ih=bg.naturalHeight,top=GY-ih;
      c.fillStyle='#6fc3cc';if(top>0)c.fillRect(0,0,W,top);
      c.imageSmoothingEnabled=false;
@@ -240,7 +240,7 @@ const GAMES=[
    c.save();c.translate(90,y);c.rotate(ready?0:clamp(this.vy/620,-.45,1.2));c.scale(this.size,this.size);
    const ch=this.chara;
    if(ch&&ch.complete&&ch.naturalWidth){
-     // キャラ画像（sozai/ふわふわばーどキャラ.png）を半分のサイズで中心に描画
+     // キャラ画像（ふわふわばーどキャラ.png）を半分のサイズで中心に描画
      const w=ch.naturalWidth/2,h=ch.naturalHeight/2;
      c.imageSmoothingEnabled=false;c.drawImage(ch,-w/2,-h/2,w,h);c.imageSmoothingEnabled=true;
      c.restore();
@@ -255,7 +255,7 @@ const GAMES=[
    }
    if(state!=='ready')this.drawScore(c,W/2,45);
  },
- // 上のスコア表示（sozai/0.png〜9.png のドット数字。読み込めないときは文字で表示）
+ // 上のスコア表示（0.png〜9.png のドット数字。読み込めないときは文字で表示）
  numScale:.75,
  drawScore(c,cx,top){
    const ds=String(score).split('').map(n=>this.nums[n]);
@@ -910,7 +910,7 @@ $('#q').addEventListener('keydown',e=>{
 });
 $('#clear').onclick=()=>{fQuery='';fGenre='すべて';$('#q').value='';buildFilters();renderMenu();};
 addEventListener('keydown',e=>{if(!G&&e.key==='/'&&document.activeElement!==$('#q')){e.preventDefault();$('#q').focus();}});
-// games/ フォルダの追加ゲームを読み込んでからメニューを作る
+// 同じフォルダの追加ゲームを読み込んでからメニューを作る
 addEventListener('DOMContentLoaded',()=>{
   $('header p').textContent=`ブラウザですぐ遊べる ${GAMES.length}本のミニゲーム詰め合わせ`;
   buildFilters();renderMenu();
@@ -925,15 +925,15 @@ function loop(t){
 requestAnimationFrame(loop);
 </script>
 <!-- 追加ゲーム（1ファイル10本ずつ） -->
-<script src="games/lib.js"></script>
-<script src="games/pack01_board.js"></script>
-<script src="games/pack02_puzzle.js"></script>
-<script src="games/pack03_puzzle.js"></script>
-<script src="games/pack04_brain.js"></script>
-<script src="games/pack05_table.js"></script>
-<script src="games/pack06_action.js"></script>
-<script src="games/pack07_action.js"></script>
-<script src="games/pack08_sports.js"></script>
-<script src="games/pack09_timing.js"></script>
+<script src="lib.js"></script>
+<script src="pack01_board.js"></script>
+<script src="pack02_puzzle.js"></script>
+<script src="pack03_puzzle.js"></script>
+<script src="pack04_brain.js"></script>
+<script src="pack05_table.js"></script>
+<script src="pack06_action.js"></script>
+<script src="pack07_action.js"></script>
+<script src="pack08_sports.js"></script>
+<script src="pack09_timing.js"></script>
 </body>
 </html>
